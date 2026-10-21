@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <title>Products | BlueBeck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #0a0a0a;
+      --bg-card:    #111111;
+      --bg-card2:   #161616;
+      --border:     #222222;
+      --accent:     #4487d0;
+      --accent-dim: rgba(68,135,208,0.12);
+      --accent-glow:rgba(68,135,208,0.35);
+      --gold:       #c3a56c;
+      --text:       #ffffff;
+      --text-muted: #888888;
+      --text-dim:   #555555;
+      --green:      #089981;
+      --red:        #f23645;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; font-style: italic; color: var(--gold); line-height: 1; }
+    .logo-text span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s; }
+    nav a:hover, nav a.active { color: var(--text); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { background: #5a98dd; box-shadow: 0 0 24px var(--accent-glow); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-outline:hover { background: var(--accent-dim); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 140px 24px 80px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(68,135,208,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .section-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+    .page-hero p { font-size: 1rem; color: var(--text-muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── TOOL CARDS ── */
+    .tools { padding: 60px 24px 100px; }
+    .tools-grid { display: flex; flex-direction: column; gap: 32px; }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .tool-card:hover {
+      border-color: rgba(68,135,208,0.35);
+      box-shadow: 0 0 40px rgba(68,135,208,0.07);
+    }
+    .tool-card-inner {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+    }
+    .tool-info {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tool-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .tool-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(68,135,208,0.3);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .tool-info h3 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .tool-info .tagline {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 32px; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: var(--text-muted); }
+    .feature-list li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .tool-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .tool-preview {
+      background: var(--bg-card2);
+      border-left: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 28px;
+    }
+
+    /* ── MOCK: SECTOR BOARD ── */
+    .mock-board { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 0.78rem; }
+    .mock-board-hdr { background: #0a1527; border-bottom: 1px solid #c3a56c; padding: 10px 14px; font-size: 0.7rem; font-weight: 700; color: #c3a56c; letter-spacing: 1.5px; text-transform: uppercase; }
+    .mock-board-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 14px; border-bottom: 1px solid #1a1a1a; }
+    .mock-board-row:last-child { border-bottom: none; }
+    .mock-board-row.gold { background: rgba(195,165,108,0.07); }
+    .mock-t { color: var(--text-muted); font-weight: 500; }
+    .mock-n { color: var(--text); font-size: 0.72rem; margin-top: 1px; }
+    .mock-g { color: var(--green); font-weight: 700; }
+    .mock-r { color: var(--red); font-weight: 700; }
+    .mock-star { color: #c3a56c; font-size: 0.65rem; font-weight: 700; margin-left: 4px; }
+
+    /* ── MOCK: ISOLATOR PANEL ── */
+    .mock-panel { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 0.78rem; }
+    .mock-panel-hdr { background: #0a1527; border-bottom: 2px solid #c3a56c; padding: 10px 14px; font-size: 0.7rem; font-weight: 700; color: #c3a56c; letter-spacing: 1.5px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+    .mock-score-pill { background: var(--accent); color: #000; font-size: 0.75rem; font-weight: 800; padding: 2px 9px; border-radius: 5px; }
+    .mock-bar-wrap { padding: 10px 14px; border-bottom: 1px solid #1a1a1a; }
+    .mock-bar-lbl { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 5px; }
+    .mock-bar-lbl span { color: var(--green); }
+    .mock-bar-track { height: 5px; background: #222; border-radius: 999px; overflow: hidden; }
+    .mock-bar-fill { height: 100%; width: 74%; background: var(--accent); border-radius: 999px; }
+    .mock-row { display: flex; justify-content: space-between; padding: 7px 14px; border-bottom: 1px solid #1a1a1a; }
+    .mock-row:last-child { border-bottom: none; }
+    .mock-lbl { color: var(--text-muted); }
+    .mock-vg { color: var(--green); font-weight: 600; }
+    .mock-vb { color: var(--accent); font-weight: 600; }
+    .mock-vgold { color: var(--gold); font-weight: 700; }
+    .mock-vw { color: var(--text); font-weight: 600; }
+
+    /* ── MOCK: RISK MANAGER ── */
+    .mock-risk { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 0.78rem; }
+    .mock-risk-hdr { background: #0a1527; border-bottom: 2px solid #c3a56c; padding: 10px 14px; font-size: 0.7rem; font-weight: 700; color: #c3a56c; letter-spacing: 1.5px; text-transform: uppercase; }
+    .mock-lines { margin: 0 14px 0; position: relative; height: 72px; background: #0d0d0d; border-radius: 6px; overflow: hidden; margin-top: 12px; margin-bottom: 4px; }
+    .mock-line-tp { position: absolute; top: 6px; left: 0; right: 0; height: 1px; background: rgba(68,135,208,0.5); }
+    .mock-line-tp::after { content: 'Take Profit'; position: absolute; right: 8px; top: -8px; font-size: 0.6rem; color: var(--accent); }
+    .mock-line-e  { position: absolute; top: 28px; left: 0; right: 0; height: 1px; background: rgba(8,153,129,0.6); }
+    .mock-line-e::after { content: 'Entry'; position: absolute; right: 8px; top: -8px; font-size: 0.6rem; color: var(--green); }
+    .mock-line-sl { position: absolute; top: 56px; left: 0; right: 0; height: 1px; background: rgba(242,54,69,0.5); }
+    .mock-line-sl::after { content: 'Stop Loss'; position: absolute; right: 8px; top: -8px; font-size: 0.6rem; color: var(--red); }
+
+    /* ── HOW THEY FIT ── */
+    .workflow { padding: 80px 24px; background: #0d0d0d; }
+    .workflow-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .workflow-inner h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; margin-top: 12px; }
+    .workflow-inner .sub { color: var(--text-muted); font-size: 0.95rem; max-width: 520px; margin: 0 auto 48px; line-height: 1.7; }
+    .flow-row { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin-bottom: 40px; }
+    .flow-step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; min-width: 160px; text-align: center; }
+    .flow-step-lbl { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    .flow-step-name { font-size: 0.88rem; font-weight: 700; }
+    .flow-arrow { color: var(--text-dim); font-size: 1.1rem; padding: 0 8px; }
+
+    /* ── FAQ ── */
+    .faq { padding: 80px 24px; }
+    .faq-inner { max-width: 680px; margin: 0 auto; }
+    .faq-inner .section-tag { text-align: center; }
+    .faq-inner h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 48px; text-align: center; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
+    .faq-q { font-size: 0.95rem; font-weight: 600; margin-bottom: 10px; }
+    .faq-a { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer { background: #080808; border-top: 1px solid var(--border); padding: 48px 24px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; font-style: italic; color: var(--gold); }
+    .footer-logo span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { font-size: 0.85rem; color: var(--text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); text-align: center; width: 100%; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+
+    @media (max-width: 900px) {
+      .tool-card-inner { grid-template-columns: 1fr; }
+      .tool-preview { border-left: none; border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .tool-info { padding: 32px 24px; }
+      .flow-row { flex-direction: column; gap: 8px; }
+      .flow-arrow { transform: rotate(90deg); }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <a href="index.html" class="logo-text">Blue<span>Beck</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="https://www.tradingview.com/u/BlueBeck" target="_blank" class="btn btn-primary">Get Free Tools</a>
+  </header>
+
+  <!-- ── PAGE HERO ── -->
+  <div class="page-hero">
+    <div class="section-tag">Free Tools</div>
+    <h1>Six Free Tools.<br/>One Clean Process.</h1>
+    <p>Every BlueBeck tool is free and public on TradingView — built from 7 years of real swing trading, not theory. Together they cover the whole trade: find it, grade it, size it, guard it.</p>
+  </div>
+
+  <!-- ── TOOL CARDS ── -->
+  <section class="tools">
+    <div class="container">
+      <div class="tools-grid">
+
+        <!-- SECTOR SWEEPER -->
+        <div class="tool-card">
+          <div class="tool-card-inner">
+            <div class="tool-info">
+              <div class="tool-meta">
+                <span class="tool-badge">Free &middot; Step 1</span>
+              </div>
+              <h3>Sector Sweeper</h3>
+              <p class="tagline">Ranks the 11 S&amp;P sectors and 12 key industries by performance — strongest at the top — so you know where to hunt before you pick a stock.</p>
+              <ul class="feature-list">
+                <li>All 11 SPDR sector ETFs ranked by % performance</li>
+                <li>12 sub-industry themes: Semis, Software, Biotech, Airlines, and more</li>
+                <li>#1 in each list highlighted in gold — strongest group always rises to the top</li>
+                <li>Watch a group climbing = rotating into favor. Sliding = falling out.</li>
+              </ul>
+              <div class="tool-ctas">
+                <a href="https://www.tradingview.com/script/JmcLi0AF-Sector-Sweeper/" target="_blank" class="btn btn-primary">Get It Free &rarr;</a>
+                <a href="sector-sweeper.html" class="btn btn-outline">Learn More</a>
+              </div>
+            </div>
+            <div class="tool-preview">
+              <div class="mock-board">
+                <div class="mock-board-hdr">SECTORS</div>
+                <div class="mock-board-row gold">
+                  <div><div class="mock-t">XLK<span class="mock-star">&#9733; #1</span></div><div class="mock-n">Technology</div></div>
+                  <span class="mock-g">+6.42%</span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">XLF</div><div class="mock-n">Financials</div></div>
+                  <span class="mock-g">+4.18%</span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">XLI</div><div class="mock-n">Industrials</div></div>
+                  <span class="mock-g">+2.87%</span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">XLE</div><div class="mock-n">Energy</div></div>
+                  <span class="mock-r">-2.33%</span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">XLU</div><div class="mock-n">Utilities</div></div>
+                  <span class="mock-r">-3.91%</span>
+                </div>
+                <div class="mock-board-hdr" style="margin-top:2px;">SUB-INDUSTRIES</div>
+                <div class="mock-board-row gold">
+                  <div><div class="mock-t">SMH<span class="mock-star">&#9733; #1</span></div><div class="mock-n">Semiconductors</div></div>
+                  <span class="mock-g">+9.11%</span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">IGV</div><div class="mock-n">Software</div></div>
+                  <span class="mock-g">+5.63%</span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">GDX</div><div class="mock-n">Gold Miners</div></div>
+                  <span class="mock-r">-1.22%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WATCHLIST CURATOR (FREE) -->
+        <div class="tool-card">
+          <div class="tool-card-inner">
+            <div class="tool-info">
+              <div class="tool-meta">
+                <span class="tool-badge">Free &middot; Step 2</span>
+              </div>
+              <h3>Watchlist Curator</h3>
+              <p class="tagline">Pick a sector — it scores ten of that sector's biggest names and ranks the top five leaders. A working watchlist in one look, instead of an hour of chart-flipping.</p>
+              <ul class="feature-list">
+                <li>Ten bellwether names per sector, all scored against the same yardstick</li>
+                <li>Leadership Score: relative strength vs SPY + trend stack + RSI sweet spot + volume</li>
+                <li>Rating column — Strong / Good / Fair / Lagging. #1 highlighted in gold</li>
+                <li>The sector dropdown pairs with Sector Sweeper: "set to Sector Sweeper's #1"</li>
+              </ul>
+              <div class="tool-ctas">
+                <a href="https://www.tradingview.com/script/BE7sa0yf-Watchlist-Curator-Stock-Ranker/" target="_blank" class="btn btn-primary">Get It Free &rarr;</a>
+                <a href="watchlist-curator.html" class="btn btn-outline">Learn More</a>
+              </div>
+            </div>
+            <div class="tool-preview">
+              <div class="mock-board">
+                <div class="mock-board-hdr">WATCHLIST CURATOR</div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">Sector</div></div>
+                  <span style="color:var(--text);font-weight:600;">Technology</span>
+                </div>
+                <div class="mock-board-row gold">
+                  <div><div class="mock-t">NVDA<span class="mock-star">&#9733; #1</span></div></div>
+                  <span><span style="color:var(--text-muted);font-weight:600;margin-right:12px;">24.6</span><span class="mock-g">Strong</span></span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">AVGO</div></div>
+                  <span><span style="color:var(--text-muted);font-weight:600;margin-right:12px;">18.2</span><span class="mock-g">Strong</span></span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">MSFT</div></div>
+                  <span><span style="color:var(--text-muted);font-weight:600;margin-right:12px;">11.4</span><span style="color:var(--accent);font-weight:700;">Good</span></span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">AAPL</div></div>
+                  <span><span style="color:var(--text-muted);font-weight:600;margin-right:12px;">7.9</span><span style="color:var(--accent);font-weight:700;">Good</span></span>
+                </div>
+                <div class="mock-board-row">
+                  <div><div class="mock-t">ORCL</div></div>
+                  <span><span style="color:var(--text-muted);font-weight:600;margin-right:12px;">3.1</span><span style="color:var(--text-muted);font-weight:700;">Fair</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARGET ISOLATOR -->
+        <div class="tool-card">
+          <div class="tool-card-inner">
+            <div class="tool-info">
+              <div class="tool-meta">
+                <span class="tool-badge">Free &middot; Step 3 &middot; Pine Screener</span>
+              </div>
+              <h3>Target Isolator</h3>
+              <p class="tagline">Scores any stock for a swing setup (0–100) and ranks your whole watchlist at once in the Pine Screener — so you stop flipping charts and start finding setups.</p>
+              <ul class="feature-list">
+                <li>0–100 Score: group strength, stock RS, 4-MA ribbon, weekly confirm, liquidity</li>
+                <li>Score line trends before the price move does — rising = improving setup</li>
+                <li>Dashboard breaks every component: swing state (BUY / DIP / HOLD / AVOID), ✓ Pass flag</li>
+                <li>Runs in the TradingView Pine Screener — grade a full watchlist in one scan</li>
+              </ul>
+              <div class="tool-ctas">
+                <a href="https://www.tradingview.com/script/QRS2r9JE-Target-Isolator-Swing-Setup-Scanner-and-Score/" target="_blank" class="btn btn-primary">Get It Free &rarr;</a>
+                <a href="target-isolator.html" class="btn btn-outline">Learn More</a>
+              </div>
+            </div>
+            <div class="tool-preview">
+              <div class="mock-panel">
+                <div class="mock-panel-hdr">
+                  <span>TARGET ISOLATOR</span>
+                  <span class="mock-score-pill">74</span>
+                </div>
+                <div class="mock-bar-wrap">
+                  <div class="mock-bar-lbl"><span>Score: 74 / 100</span><span style="color:var(--green);">&#10003; PASS</span></div>
+                  <div class="mock-bar-track"><div class="mock-bar-fill"></div></div>
+                </div>
+                <div class="mock-row"><span class="mock-lbl">Group RS</span><span class="mock-vg">Strong</span></div>
+                <div class="mock-row"><span class="mock-lbl">Stock RS</span><span class="mock-vg">Outperforming</span></div>
+                <div class="mock-row"><span class="mock-lbl">Swing State</span><span class="mock-vgold">BUY</span></div>
+                <div class="mock-row"><span class="mock-lbl">Weekly Confirm</span><span class="mock-vg">Yes</span></div>
+                <div class="mock-row"><span class="mock-lbl">Signal Age</span><span class="mock-vw">3 bars</span></div>
+                <div class="mock-row"><span class="mock-lbl">Liquidity</span><span class="mock-vg">Pass</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SWING TRADE SCANNER (FREE) -->
+        <div class="tool-card">
+          <div class="tool-card-inner">
+            <div class="tool-info">
+              <div class="tool-meta">
+                <span class="tool-badge">Free &middot; Step 4</span>
+              </div>
+              <h3>Swing Trade Scanner</h3>
+              <p class="tagline">Grades the stock on your chart as a long swing setup — a 0&ndash;100 score, an A+ to D grade, and a plain-English verdict.</p>
+              <ul class="feature-list">
+                <li>Five weighted checks: MA alignment, momentum, distance from high, RS vs SPY, volume</li>
+                <li>Verdict in plain English: HIGH QUALITY / MODERATE / WEAK / AVOID / EXTENDED-WAIT</li>
+                <li>Extension penalty — it won't grade a stretched chart highly</li>
+                <li>4-MA ribbon with trend shading and optional candle coloring</li>
+              </ul>
+              <div class="tool-ctas">
+                <a href="https://www.tradingview.com/script/WAZgKKJl-Swing-Trade-Scanner-Setup-Grade-and-Verdict/" target="_blank" class="btn btn-primary">Get It Free &rarr;</a>
+                <a href="swing-trade-scanner.html" class="btn btn-outline">Learn More</a>
+              </div>
+            </div>
+            <div class="tool-preview">
+              <div class="mock-panel">
+                <div class="mock-panel-hdr">
+                  <span>SWING TRADE SCANNER</span>
+                  <span class="mock-score-pill" style="background:var(--green);color:#fff;">A</span>
+                </div>
+                <div class="mock-bar-wrap">
+                  <div class="mock-bar-lbl"><span style="color:var(--text);">Score: 78 / 100</span></div>
+                  <div class="mock-bar-track"><div class="mock-bar-fill" style="width:78%;"></div></div>
+                </div>
+                <div class="mock-row"><span class="mock-lbl">MA Alignment</span><span class="mock-vg">Full Bull Stack</span></div>
+                <div class="mock-row"><span class="mock-lbl">Momentum (60b)</span><span class="mock-vg">+14.2%</span></div>
+                <div class="mock-row"><span class="mock-lbl">RS vs SPY</span><span class="mock-vg">+5.8%</span></div>
+                <div class="mock-row"><span class="mock-lbl">Volume Ratio</span><span class="mock-vg">1.4&times; avg</span></div>
+                <div class="mock-row"><span class="mock-lbl">Verdict</span><span class="mock-vgold">HIGH QUALITY</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RISK MANAGER -->
+        <div class="tool-card">
+          <div class="tool-card-inner">
+            <div class="tool-info">
+              <div class="tool-meta">
+                <span class="tool-badge">Free Forever &middot; Step 5</span>
+              </div>
+              <h3>All-in-One Risk Manager</h3>
+              <p class="tagline">Enter your account size and risk %. It sizes the position and plots your stop and targets on the chart — so you never guess your share count again.</p>
+              <ul class="feature-list">
+                <li>Automatic position sizing from account size + risk %</li>
+                <li>Long &amp; Short — works both directions</li>
+                <li>ATR or manual stop loss, three take-profit targets</li>
+                <li>ATR chandelier trailing stop (optional)</li>
+                <li>Entry, stop, and target lines drawn right on your chart</li>
+              </ul>
+              <div class="tool-ctas">
+                <a href="https://www.tradingview.com/script/hZQd6CnW-All-in-One-Risk-Manager-by-BlueBeck/" target="_blank" class="btn btn-primary">Get It Free &rarr;</a>
+                <a href="risk-manager.html" class="btn btn-outline">Learn More</a>
+              </div>
+            </div>
+            <div class="tool-preview">
+              <div class="mock-risk">
+                <div class="mock-risk-hdr">ALL-IN-ONE RISK MANAGER</div>
+                <div class="mock-lines">
+                  <div class="mock-line-tp"></div>
+                  <div class="mock-line-e"></div>
+                  <div class="mock-line-sl"></div>
+                </div>
+                <div class="mock-row"><span class="mock-lbl">Direction</span><span class="mock-vg">LONG ▲</span></div>
+                <div class="mock-row"><span class="mock-lbl">Account</span><span class="mock-vw">$10,000</span></div>
+                <div class="mock-row"><span class="mock-lbl">Risk</span><span class="mock-vw">1% → $100</span></div>
+                <div class="mock-row"><span class="mock-lbl">Stop Loss</span><span style="color:var(--red);font-weight:600;">$828.98 (−9.1%)</span></div>
+                <div class="mock-row"><span class="mock-lbl">Take Profit</span><span class="mock-vb">$1,080.38 (+18.3%)</span></div>
+                <div class="mock-row"><span class="mock-lbl">R : R</span><span class="mock-vg">2 : 1</span></div>
+                <div class="mock-row"><span class="mock-lbl">Position</span><span class="mock-vw">1.19 units</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SWING TRADE DEFENDER (FREE) -->
+        <div class="tool-card">
+          <div class="tool-card-inner">
+            <div class="tool-info">
+              <div class="tool-meta">
+                <span class="tool-badge">Free &middot; Step 6</span>
+              </div>
+              <h3>Swing Trade Defender</h3>
+              <p class="tagline">You're in a trade. Defender watches it for the five ways swing trades fail — plus an ATR trailing stop — and shows one status: OK, CAUTION, or EXIT.</p>
+              <ul class="feature-list">
+                <li>Five failure flags: trend break, structure break, momentum rollover, distribution, trail hit</li>
+                <li>CAUTION at 1&ndash;2 flags, EXIT at 3+ or any trail hit — with a box listing what failed</li>
+                <li>Long and short — flags and markers flip automatically</li>
+                <li>Status panel + "Exit signal" and "Caution" alerts to your phone</li>
+              </ul>
+              <div class="tool-ctas">
+                <a href="https://www.tradingview.com/script/AUDyUchG-Swing-Trade-Defender/" target="_blank" class="btn btn-primary">Get It Free &rarr;</a>
+                <a href="swing-trade-defender.html" class="btn btn-outline">Learn More</a>
+              </div>
+            </div>
+            <div class="tool-preview">
+              <div class="mock-panel">
+                <div class="mock-panel-hdr">
+                  <span>SWING TRADE DEFENDER</span>
+                  <span class="mock-score-pill" style="background:#ff9800;">CAUTION</span>
+                </div>
+                <div class="mock-row"><span class="mock-lbl">Status</span><span style="color:#ff9800;font-weight:700;">CAUTION &middot; 2 / 5</span></div>
+                <div class="mock-row"><span class="mock-lbl">Trend (20-EMA)</span><span style="color:var(--red);font-weight:600;">Break</span></div>
+                <div class="mock-row"><span class="mock-lbl">Structure</span><span class="mock-vg">Hold</span></div>
+                <div class="mock-row"><span class="mock-lbl">Momentum (RSI)</span><span style="color:var(--red);font-weight:600;">Break</span></div>
+                <div class="mock-row"><span class="mock-lbl">Distribution</span><span class="mock-vg">Hold</span></div>
+                <div class="mock-row"><span class="mock-lbl">ATR Trail</span><span class="mock-vg">$142.10 &middot; Hold</span></div>
+                <div class="mock-row"><span class="mock-lbl">Open P/L</span><span class="mock-vg">+2.4%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.tools-grid -->
+    </div>
+  </section>
+
+  <!-- ── HOW THEY FIT ── -->
+  <section class="workflow">
+    <div class="workflow-inner">
+      <div class="section-tag">The Process</div>
+      <h2>Six steps. One workflow.</h2>
+      <p class="sub">Each tool does one job. Together they take you from "where do I look?" to "when do I get out?" — the whole trade, start to finish.</p>
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-step-lbl">Step 1 &mdash; Find the group</div>
+          <div class="flow-step-name">Sector Sweeper</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="flow-step-lbl">Step 2 &mdash; Build the watchlist</div>
+          <div class="flow-step-name">Watchlist Curator</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="flow-step-lbl">Step 3 &mdash; Scan the watchlist</div>
+          <div class="flow-step-name">Target Isolator</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-step-lbl">Step 4 &mdash; Grade the chart</div>
+          <div class="flow-step-name">Swing Trade Scanner</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="flow-step-lbl">Step 5 &mdash; Size the trade</div>
+          <div class="flow-step-name">Risk Manager</div>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-step">
+          <div class="flow-step-lbl">Step 6 &mdash; Guard the trade</div>
+          <div class="flow-step-name">Swing Trade Defender</div>
+        </div>
+      </div>
+      <a href="https://www.tradingview.com/u/BlueBeck" target="_blank" class="btn btn-primary">Get All Six Free on TradingView &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="faq">
+    <div class="faq-inner">
+      <div class="section-tag">FAQ</div>
+      <h2>Common Questions</h2>
+      <div class="faq-item">
+        <div class="faq-q">How do I get the indicators?</div>
+        <div class="faq-a">All six are free and public on TradingView. Open the BlueBeck profile, add any indicator to your favorites, and drop it on a chart — no purchase, no invite, no waiting.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do I need a paid TradingView plan?</div>
+        <div class="faq-a">A free TradingView account is enough to use the tools on a chart. The Pine Screener (used by Target Isolator to scan a watchlist) is a TradingView feature — screener size and options vary by plan, but the basic scan works on free accounts. Where the free plan bites is indicator count: it caps how many studies you can stack on one chart, so running several BlueBeck tools side by side is where a paid plan starts to earn its keep. If you decide to go that route, <a href="https://www.tradingview.com/?aff_id=168972" target="_blank" rel="sponsored nofollow noopener" style="color: var(--accent);">here's my TradingView link</a>.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Are these really free? What's the catch?</div>
+        <div class="faq-a">No catch. I'm releasing these free tools to build the BlueBeck brand and earn trust before asking anyone to pay for anything. Every feature is included — nothing is locked.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Do these work for any stock?</div>
+        <div class="faq-a">Yes. The tools work on any stock or ETF available on TradingView, on any timeframe. They're built for daily swing trading but nothing limits their use.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Will there be more tools?</div>
+        <div class="faq-a">Yes — Pro versions of Swing Trade Scanner, Watchlist Curator, and Swing Trade Defender are in development: trade levels and the short side on the Scanner, a whole-market bellwether board on the Curator, and an eight-position monitor on the Defender. The free versions stay free. Follow the BlueBeck profile on TradingView to catch the launches.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What broker do you trade through?</div>
+        <div class="faq-a">Robinhood. No commissions, fractional shares so I can size a position properly instead of rounding to whole shares, and it's easy to check on a phone. The BlueBeck tools work with any broker; they live on the chart, not the order ticket.</div>
+      </div>
+      <div style="margin-top: 32px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.7;">
+        Some links on this page are referral links. If you sign up through one, BlueBeck gets a commission or a referral bonus at no extra cost to you. I only link to things I use myself.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Blue<span>Beck</span></div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="sector-sweeper.html">Sector Sweeper</a>
+        <a href="watchlist-curator.html">Watchlist Curator</a>
+        <a href="target-isolator.html">Target Isolator</a>
+        <a href="swing-trade-scanner.html">Swing Trade Scanner</a>
+        <a href="risk-manager.html">Risk Manager</a>
+        <a href="swing-trade-defender.html">Swing Trade Defender</a>
+        <a href="https://www.tradingview.com/u/BlueBeck" target="_blank">TradingView</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 BlueBeck. All rights reserved. &nbsp;|&nbsp; bluebeck.org</div>
+    </div>
+  </footer>
+
+</body>
+</html>

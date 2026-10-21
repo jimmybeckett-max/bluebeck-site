@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <title>All-in-One Risk Manager | BlueBeck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #0a0a0a;
+      --bg-card:    #111111;
+      --bg-card2:   #161616;
+      --border:     #222222;
+      --accent:     #4487d0;
+      --accent-dim: rgba(68,135,208,0.12);
+      --accent-glow:rgba(68,135,208,0.35);
+      --gold:       #c3a56c;
+      --text:       #ffffff;
+      --text-muted: #888888;
+      --text-dim:   #555555;
+      --green:      #089981;
+      --red:        #f23645;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; font-style: italic; color: var(--gold); line-height: 1; }
+    .logo-text span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s; }
+    nav a:hover { color: var(--text); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { background: #5a98dd; box-shadow: 0 0 24px var(--accent-glow); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-outline:hover { background: var(--accent-dim); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 140px 24px 80px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(68,135,208,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .free-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 18px; border-radius: 999px;
+      border: 1px solid rgba(68,135,208,0.3); background: var(--accent-dim);
+      font-size: 0.8rem; font-weight: 600; color: var(--accent);
+      margin-bottom: 24px; letter-spacing: 0.5px;
+    }
+    .page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; }
+    .page-hero h1 .highlight { color: var(--accent); }
+    .page-hero .sub { font-size: 1.1rem; color: var(--text-muted); max-width: 540px; margin: 0 auto 40px; line-height: 1.7; }
+    .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+    .section-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+
+    /* ── WHAT IT SHOWS ── */
+    .what { padding: 100px 24px; background: #0d0d0d; }
+    .what-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .what h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+    .what p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 20px; }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 32px; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; color: var(--text-muted); }
+    .feature-list li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .feature-list li strong { color: var(--text); }
+
+    /* ── MOCK RISK PANEL ── */
+    .mock-risk {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      font-size: 0.82rem;
+    }
+    .mock-risk-header {
+      background: #0a1527;
+      border-bottom: 1px solid #c3a56c;
+      padding: 12px 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #c3a56c;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .mock-lines {
+      position: relative; height: 150px;
+      margin: 14px 16px 6px;
+      background: #0d0d0d; border-radius: 8px; overflow: hidden;
+    }
+    .mock-line { position: absolute; left: 0; right: 0; height: 1px; }
+    .mock-line-label {
+      position: absolute; right: 8px; top: -15px;
+      font-size: 0.62rem; font-weight: 600;
+      background: #0d0d0d; padding: 0 4px; line-height: 1.4;
+    }
+    .mock-line.tp3 { top: 14px;  background: rgba(255,215,0,0.45); }
+    .mock-line.tp3 .mock-line-label { color: var(--gold); }
+    .mock-line.tp2 { top: 44px;  background: rgba(255,215,0,0.45); }
+    .mock-line.tp2 .mock-line-label { color: var(--gold); }
+    .mock-line.tp1 { top: 74px;  background: rgba(68,135,208,0.55); }
+    .mock-line.tp1 .mock-line-label { color: var(--accent); }
+    .mock-line.entry { top: 104px; background: rgba(8,153,129,0.6); }
+    .mock-line.entry .mock-line-label { color: var(--green); }
+    .mock-line.sl { top: 134px; background: rgba(242,54,69,0.55); }
+    .mock-line.sl .mock-line-label { color: var(--red); }
+    .mock-risk-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 7px 16px; border-bottom: 1px solid #1a1a1a;
+    }
+    .mock-risk-row:last-child { border-bottom: none; }
+    .mock-lbl { color: var(--text-muted); }
+    .mock-vw { color: var(--text); font-weight: 600; }
+    .mock-vg { color: var(--green); font-weight: 700; }
+    .mock-vr { color: var(--red); font-weight: 600; }
+    .mock-vb { color: var(--accent); font-weight: 600; }
+    .mock-vgold { color: var(--gold); font-weight: 600; }
+
+    /* ── THE MATH ── */
+    .math { padding: 90px 24px; }
+    .math-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+    .math-inner h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+    .math-inner > p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 40px; }
+    .math-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 32px; text-align: left;
+    }
+    .math-step { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid #1a1a1a; }
+    .math-step:last-child { border-bottom: none; }
+    .math-step .m-label { flex: 1; font-size: 0.88rem; color: var(--text-muted); }
+    .math-step .m-calc { font-size: 0.9rem; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+    .math-step .m-calc .hl { color: var(--accent); }
+    .math-note { font-size: 0.82rem; color: var(--text-dim); margin-top: 20px; line-height: 1.7; }
+
+    /* ── HOW TO USE ── */
+    .how { padding: 100px 24px; background: #0d0d0d; }
+    .how-header { text-align: center; margin-bottom: 64px; }
+    .how-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.5px; margin-top: 12px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px 28px; transition: border-color 0.3s; }
+    .step:hover { border-color: rgba(68,135,208,0.3); }
+    .step-num { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-dim); border: 1px solid rgba(68,135,208,0.3); color: var(--accent); font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+    .step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .step p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── SETTINGS ── */
+    .settings { padding: 80px 24px; }
+    .settings-inner { max-width: 800px; margin: 0 auto; }
+    .settings-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .settings-intro { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 40px; }
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .setting-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
+    .setting-name { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .setting-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .setting-default { font-size: 0.75rem; color: var(--accent); margin-top: 8px; }
+
+    /* ── FUNNEL ── */
+    .funnel { padding: 80px 24px; background: #0d0d0d; }
+    .funnel-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+    .funnel-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .funnel-inner p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 48px; }
+    .funnel-flow { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin-bottom: 48px; }
+    .funnel-step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; text-align: center; min-width: 160px; }
+    .funnel-step.active { border-color: var(--accent); background: var(--accent-dim); }
+    .funnel-step-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .funnel-step-name { font-size: 0.9rem; font-weight: 700; }
+    .funnel-step.active .funnel-step-name { color: var(--accent); }
+    .funnel-arrow { color: var(--text-dim); font-size: 1.2rem; padding: 0 8px; }
+    .funnel-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer { padding: 40px 24px; text-align: center; }
+    .disclaimer p { font-size: 0.82rem; color: var(--text-dim); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer { background: #080808; border-top: 1px solid var(--border); padding: 48px 24px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; font-style: italic; color: var(--gold); }
+    .footer-logo span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { font-size: 0.85rem; color: var(--text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); text-align: center; width: 100%; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .what-inner { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .funnel-flow { flex-direction: column; gap: 8px; }
+      .funnel-arrow { transform: rotate(90deg); }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .math-step { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <a href="index.html" class="logo-text">Blue<span>Beck</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="https://www.tradingview.com/script/hZQd6CnW-All-in-One-Risk-Manager-by-BlueBeck/" target="_blank" class="btn btn-primary">Get It Free</a>
+  </header>
+
+  <!-- ── PAGE HERO ── -->
+  <div class="page-hero">
+    <div class="free-badge">&#9679; Free Forever on TradingView</div>
+    <h1>All-in-One <span class="highlight">Risk Manager</span></h1>
+    <p class="sub">Enter your account size and risk %. It sizes the position and plots your stop and targets on the chart — so you never guess your share count again.</p>
+    <div class="hero-cta">
+      <a href="https://www.tradingview.com/script/hZQd6CnW-All-in-One-Risk-Manager-by-BlueBeck/" target="_blank" class="btn btn-primary">Add to TradingView &rarr;</a>
+      <a href="products.html" class="btn btn-outline">View All Tools</a>
+    </div>
+  </div>
+
+  <!-- ── WHAT IT SHOWS ── -->
+  <section class="what">
+    <div class="container">
+      <div class="what-inner">
+        <div>
+          <div class="section-tag">What it does</div>
+          <h2>Know your size, stop, and targets before you click buy.</h2>
+          <p>Most blown accounts aren't bad stock picks — they're positions that were too big for the stop. The Risk Manager does the sizing math for you and draws every level on the chart, so the risk decision is made before the trade, not after.</p>
+          <ul class="feature-list">
+            <li><strong>Automatic position sizing</strong> — from your account size and risk %. Whole units, never a guess.</li>
+            <li><strong>Cash cap, no leverage</strong> — if a tight stop says "buy more than your cash covers," it caps the size to what you can afford and shows a &#9888; warning.</li>
+            <li><strong>ATR or manual stop</strong> — use a volatility-based stop (ATR = the stock's average bar range) or type in your own price.</li>
+            <li><strong>Three take-profit targets</strong> — TP1, TP2, TP3 at 2R, 3R, and 5R by default, for scaling out in pieces.</li>
+            <li><strong>Optional trailing stop</strong> — an ATR chandelier stop (a stop that follows price up) for riding winners. Off by default.</li>
+            <li><strong>Long &amp; Short</strong> — works in both directions, on any stock, any timeframe.</li>
+          </ul>
+          <a href="https://www.tradingview.com/script/hZQd6CnW-All-in-One-Risk-Manager-by-BlueBeck/" target="_blank" class="btn btn-primary">Add It Free &rarr;</a>
+        </div>
+
+        <div class="mock-risk">
+          <div class="mock-risk-header">ALL-IN-ONE RISK MANAGER</div>
+          <div class="mock-lines">
+            <div class="mock-line tp3"><span class="mock-line-label">TP3 &middot; 5R &middot; $54.20</span></div>
+            <div class="mock-line tp2"><span class="mock-line-label">TP2 &middot; 3R &middot; $51.00</span></div>
+            <div class="mock-line tp1"><span class="mock-line-label">TP1 &middot; 2R &middot; $49.40</span></div>
+            <div class="mock-line entry"><span class="mock-line-label">Entry &middot; $46.20</span></div>
+            <div class="mock-line sl"><span class="mock-line-label">Stop &middot; $44.60</span></div>
+          </div>
+          <div class="mock-risk-row"><span class="mock-lbl">Direction</span><span class="mock-vg">LONG &#9650;</span></div>
+          <div class="mock-risk-row"><span class="mock-lbl">Account</span><span class="mock-vw">$10,000</span></div>
+          <div class="mock-risk-row"><span class="mock-lbl">Risk</span><span class="mock-vw">1% &rarr; $100</span></div>
+          <div class="mock-risk-row"><span class="mock-lbl">Stop Loss</span><span class="mock-vr">$44.60 (ATR)</span></div>
+          <div class="mock-risk-row"><span class="mock-lbl">TP1 / TP2 / TP3</span><span class="mock-vb">$49.40 <span class="mock-vgold">/ $51.00 / $54.20</span></span></div>
+          <div class="mock-risk-row"><span class="mock-lbl">Position</span><span class="mock-vw">62 units &middot; $2,864</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── THE MATH ── -->
+  <section class="math">
+    <div class="math-inner">
+      <div class="section-tag">The math</div>
+      <h2>Simple on purpose.</h2>
+      <p>No black box. It's the same arithmetic disciplined traders do by hand — the tool just does it instantly, every time, without fat-fingering the calculator.</p>
+      <div class="math-card">
+        <div class="math-step">
+          <span class="m-label">Dollars at risk = account &times; risk %</span>
+          <span class="m-calc">$10,000 &times; 1% = <span class="hl">$100</span></span>
+        </div>
+        <div class="math-step">
+          <span class="m-label">Risk per unit = entry &minus; stop</span>
+          <span class="m-calc">$46.20 &minus; $44.60 = <span class="hl">$1.60</span></span>
+        </div>
+        <div class="math-step">
+          <span class="m-label">Position size = dollars at risk &divide; risk per unit</span>
+          <span class="m-calc">$100 &divide; $1.60 = <span class="hl">62 units</span></span>
+        </div>
+      </div>
+      <p class="math-note">If the stop hits, you lose about $100 — 1% of the account — not a number you found out about afterward. And if the math ever calls for more stock than your cash covers, the cash cap steps in and sizes down.</p>
+    </div>
+  </section>
+
+  <!-- ── HOW TO USE ── -->
+  <section class="how">
+    <div class="container">
+      <div class="how-header">
+        <div class="section-tag">How to use it</div>
+        <h2>Set it once, read it every trade.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Enter account &amp; risk</h4>
+          <p>Type in your account size and the % you're willing to risk per trade (1% is a common starting point). You do this once — it applies to every chart.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>Pick your stop</h4>
+          <p>Leave the ATR stop on and it adapts to each stock's volatility automatically. Or switch to Manual and type the exact price where your setup is wrong.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Read the panel</h4>
+          <p>The panel shows your unit count; the chart shows entry, stop, and all three targets. Place the trade with those numbers — scale out at the targets or let the trailing stop follow it up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SETTINGS ── -->
+  <section class="settings">
+    <div class="settings-inner">
+      <div class="section-tag">Settings</div>
+      <h2>Defaults work out of the box.</h2>
+      <p class="settings-intro">Set your account size and risk % — everything else is ready. Tune when you want to.</p>
+      <div class="settings-grid">
+        <div class="setting-card">
+          <div class="setting-name">Account size &amp; risk %</div>
+          <div class="setting-desc">The two numbers that drive everything. Risk % is how much of the account one losing trade may cost you.</div>
+          <div class="setting-default">Default: $10,000 &middot; 1%</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">Direction</div>
+          <div class="setting-desc">Long or Short. Flips the stop below/above entry and the targets to match.</div>
+          <div class="setting-default">Default: Long</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">Stop loss method</div>
+          <div class="setting-desc">ATR mode places the stop a multiple of the stock's average bar range away — wider for wild stocks, tighter for calm ones. Manual mode uses your exact price.</div>
+          <div class="setting-default">Default: ATR</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">Take-profit targets</div>
+          <div class="setting-desc">Three targets set in R multiples (R = your risk per unit). Adjust each one or ignore the ones you don't use.</div>
+          <div class="setting-default">Default: 2R / 3R / 5R</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">ATR trailing stop</div>
+          <div class="setting-desc">A chandelier-style stop that trails below price as it rises — for letting a winner run instead of taking a fixed target.</div>
+          <div class="setting-default">Default: Off</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">Panel &amp; colors</div>
+          <div class="setting-desc">9 panel positions, four text sizes, and separate color inputs for every line. The panel matches your chart's light or dark theme automatically.</div>
+          <div class="setting-default">Default: auto theme</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FUNNEL ── -->
+  <section class="funnel">
+    <div class="funnel-inner">
+      <div class="section-tag">The workflow</div>
+      <h2>One tool in a clean process.</h2>
+      <p>The Risk Manager sizes the trade after Swing Trade Scanner grades the chart — then Swing Trade Defender guards it once you're in. Six free tools, one clean workflow.</p>
+      <div class="funnel-flow">
+        <div class="funnel-step">
+          <div class="funnel-step-label">Step 4</div>
+          <div class="funnel-step-name">Swing Trade Scanner</div>
+        </div>
+        <div class="funnel-arrow">&rarr;</div>
+        <div class="funnel-step active">
+          <div class="funnel-step-label">Step 5</div>
+          <div class="funnel-step-name">Risk Manager</div>
+        </div>
+        <div class="funnel-arrow">&rarr;</div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Step 6</div>
+          <div class="funnel-step-name">Swing Trade Defender</div>
+        </div>
+      </div>
+      <div class="funnel-ctas">
+        <a href="https://www.tradingview.com/script/hZQd6CnW-All-in-One-Risk-Manager-by-BlueBeck/" target="_blank" class="btn btn-primary">Get Risk Manager Free &rarr;</a>
+        <a href="swing-trade-defender.html" class="btn btn-outline">See Swing Trade Defender</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DISCLAIMER ── -->
+  <div class="disclaimer">
+    <p>&#9888; Risk-planning tool — not a buy/sell signal. It calculates position size and plots levels from the inputs you give it; it does not predict price movement or tell you what to trade. Not financial advice.</p>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Blue<span>Beck</span></div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="sector-sweeper.html">Sector Sweeper</a>
+        <a href="target-isolator.html">Target Isolator</a>
+        <a href="https://www.tradingview.com/script/hZQd6CnW-All-in-One-Risk-Manager-by-BlueBeck/" target="_blank">TradingView</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 BlueBeck. All rights reserved. &nbsp;|&nbsp; bluebeck.org</div>
+    </div>
+  </footer>
+
+</body>
+</html>

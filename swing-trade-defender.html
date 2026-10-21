@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <title>Swing Trade Defender (Free) | BlueBeck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #0a0a0a;
+      --bg-card:    #111111;
+      --bg-card2:   #161616;
+      --border:     #222222;
+      --accent:     #4487d0;
+      --accent-dim: rgba(68,135,208,0.12);
+      --accent-glow:rgba(68,135,208,0.35);
+      --gold:       #c3a56c;
+      --text:       #ffffff;
+      --text-muted: #888888;
+      --text-dim:   #555555;
+      --green:      #089981;
+      --red:        #f23645;
+      --amber:      #ff9800;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; font-style: italic; color: var(--gold); line-height: 1; }
+    .logo-text span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s; }
+    nav a:hover { color: var(--text); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { background: #5a98dd; box-shadow: 0 0 24px var(--accent-glow); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-outline:hover { background: var(--accent-dim); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 140px 24px 80px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(68,135,208,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .free-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 18px; border-radius: 999px;
+      border: 1px solid rgba(68,135,208,0.3); background: var(--accent-dim);
+      font-size: 0.8rem; font-weight: 600; color: var(--accent);
+      margin-bottom: 24px; letter-spacing: 0.5px;
+    }
+    .page-hero h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; }
+    .page-hero h1 .highlight { color: var(--accent); }
+    .page-hero .sub { font-size: 1.1rem; color: var(--text-muted); max-width: 560px; margin: 0 auto 40px; line-height: 1.7; }
+    .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+    .section-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+
+    /* ── WHAT IT SHOWS ── */
+    .what { padding: 100px 24px; background: #0d0d0d; }
+    .what-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .what h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+    .what p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 20px; }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 32px; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; color: var(--text-muted); }
+    .feature-list li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .feature-list li strong { color: var(--text); }
+
+    /* ── MOCK STATUS PANEL ── */
+    .mock-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .mock-panel-header {
+      background: #0a1527;
+      border-bottom: 1px solid #c3a56c;
+      padding: 12px 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #c3a56c;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .mock-status-pill { background: var(--amber); color: #000; font-size: 0.72rem; font-weight: 800; padding: 2px 10px; border-radius: 5px; letter-spacing: 0.5px; }
+    .mock-flag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .mock-flag-row:last-child { border-bottom: none; }
+    .mock-flag-row.status-row { background: rgba(255,152,0,0.07); }
+    .mock-lbl { color: var(--text-muted); font-weight: 500; }
+    .mock-val-green { color: var(--green); font-weight: 700; }
+    .mock-val-red { color: var(--red); font-weight: 700; }
+    .mock-val-amber { color: var(--amber); font-weight: 700; }
+    .mock-val { color: var(--text); font-weight: 600; }
+
+    /* ── HOW TO USE ── */
+    .how { padding: 100px 24px; }
+    .how-header { text-align: center; margin-bottom: 64px; }
+    .how-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; letter-spacing: -0.5px; margin-top: 12px; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 32px 28px; transition: border-color 0.3s; }
+    .step:hover { border-color: rgba(68,135,208,0.3); }
+    .step-num { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-dim); border: 1px solid rgba(68,135,208,0.3); color: var(--accent); font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+    .step h4 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .step p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── SETTINGS ── */
+    .settings { padding: 80px 24px; background: #0d0d0d; }
+    .settings-inner { max-width: 800px; margin: 0 auto; }
+    .settings-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .settings-intro { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 40px; }
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .setting-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
+    .setting-name { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .setting-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .setting-default { font-size: 0.75rem; color: var(--accent); margin-top: 8px; }
+
+    /* ── FUNNEL ── */
+    .funnel { padding: 80px 24px; }
+    .funnel-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+    .funnel-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .funnel-inner p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 48px; }
+    .funnel-flow { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin-bottom: 48px; }
+    .funnel-step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; text-align: center; min-width: 160px; }
+    .funnel-step.active { border-color: var(--accent); background: var(--accent-dim); }
+    .funnel-step-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .funnel-step-name { font-size: 0.9rem; font-weight: 700; }
+    .funnel-step.active .funnel-step-name { color: var(--accent); }
+    .funnel-arrow { color: var(--text-dim); font-size: 1.2rem; padding: 0 8px; }
+    .funnel-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer { padding: 40px 24px; text-align: center; }
+    .disclaimer p { font-size: 0.82rem; color: var(--text-dim); max-width: 560px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer { background: #080808; border-top: 1px solid var(--border); padding: 48px 24px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; font-style: italic; color: var(--gold); }
+    .footer-logo span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { font-size: 0.85rem; color: var(--text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); text-align: center; width: 100%; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .what-inner { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .funnel-flow { flex-direction: column; gap: 8px; }
+      .funnel-arrow { transform: rotate(90deg); }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <a href="index.html" class="logo-text">Blue<span>Beck</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="https://www.tradingview.com/script/AUDyUchG-Swing-Trade-Defender/" target="_blank" class="btn btn-primary">Get It Free</a>
+  </header>
+
+  <!-- ── PAGE HERO ── -->
+  <div class="page-hero">
+    <div class="free-badge">&#9679; Free on TradingView</div>
+    <h1>Swing Trade <span class="highlight">Defender</span></h1>
+    <p class="sub">You're in a trade. Defender watches it for the five ways swing trades fail — plus an ATR trailing stop — and shows one status: OK, CAUTION, or EXIT.</p>
+    <div class="hero-cta">
+      <a href="https://www.tradingview.com/script/AUDyUchG-Swing-Trade-Defender/" target="_blank" class="btn btn-primary">Add to TradingView &rarr;</a>
+      <a href="products.html" class="btn btn-outline">View All Tools</a>
+    </div>
+  </div>
+
+  <!-- ── WHAT IT SHOWS ── -->
+  <section class="what">
+    <div class="container">
+      <div class="what-inner">
+        <div>
+          <div class="section-tag">What it does</div>
+          <h2>The hard half is admitting when it stops working.</h2>
+          <p>Finding the trade is the easy half. Swing Trade Defender watches your open trade bar by bar and does the admitting for you. Set your direction — long or short — and your entry price. It handles the rest.</p>
+          <ul class="feature-list">
+            <li><strong>Five failure flags, 1 point each</strong> — trend break (close through the 20-EMA), structure break (prior swing low taken out), momentum rollover (RSI back through 50), distribution (down bar on 1.5&times; volume), and an ATR trailing-stop hit.</li>
+            <li><strong>One status</strong> — OK: let it work. CAUTION (1&ndash;2 flags): an orange triangle marks the bar — hover it to see exactly which flags are up. EXIT (3+ flags, or any trail hit): a red &#10005; with a box listing what failed.</li>
+            <li><strong>Works both directions</strong> — all five flags flip automatically for shorts. Markers sit above the bar for longs, below for shorts.</li>
+            <li><strong>Status panel</strong> — the whole picture in one table: status, flag count, each flag's own line, the live ATR trail price, your entry, and open P/L.</li>
+            <li><strong>Alerts built in</strong> — "Exit signal" and "Caution" alert conditions, so TradingView pings your phone instead of you watching the screen.</li>
+          </ul>
+          <a href="https://www.tradingview.com/script/AUDyUchG-Swing-Trade-Defender/" target="_blank" class="btn btn-primary">Add It Free &rarr;</a>
+        </div>
+
+        <div class="mock-panel">
+          <div class="mock-panel-header">
+            <span>SWING TRADE DEFENDER</span>
+            <span class="mock-status-pill">CAUTION</span>
+          </div>
+          <div class="mock-flag-row status-row"><span class="mock-lbl">Status</span><span class="mock-val-amber">CAUTION &middot; 2 / 5</span></div>
+          <div class="mock-flag-row"><span class="mock-lbl">Trend (20-EMA)</span><span class="mock-val-red">Break</span></div>
+          <div class="mock-flag-row"><span class="mock-lbl">Structure</span><span class="mock-val-green">Hold</span></div>
+          <div class="mock-flag-row"><span class="mock-lbl">Momentum (RSI)</span><span class="mock-val-red">Break</span></div>
+          <div class="mock-flag-row"><span class="mock-lbl">Distribution</span><span class="mock-val-green">Hold</span></div>
+          <div class="mock-flag-row"><span class="mock-lbl">ATR Trail</span><span class="mock-val-green">$142.10 &middot; Hold</span></div>
+          <div class="mock-flag-row"><span class="mock-lbl">Entry</span><span class="mock-val">$148.50</span></div>
+          <div class="mock-flag-row"><span class="mock-lbl">Open P/L</span><span class="mock-val-green">+2.4%</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW TO USE ── -->
+  <section class="how">
+    <div class="container">
+      <div class="how-header">
+        <div class="section-tag">How to use it</div>
+        <h2>Set it once. Let it watch.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Enter your trade</h4>
+          <p>Direction (long or short) and your entry price in the settings. That's the whole setup — the panel starts tracking your open P/L immediately.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>Let it watch</h4>
+          <p>Five checks run on every bar so you don't have to stare at the screen. Set the two built-in alerts and TradingView pings your phone.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Act on the status</h4>
+          <p>EXIT means the trade has failed by these rules — three flags up, or the trailing stop hit. Whether to act is always your call, but now it's an informed one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SETTINGS ── -->
+  <section class="settings">
+    <div class="settings-inner">
+      <div class="section-tag">Settings</div>
+      <h2>Tuned for trades held days to weeks.</h2>
+      <p class="settings-intro">The defaults match a standard swing timeframe. Tighten or loosen to fit your style.</p>
+      <div class="settings-grid">
+        <div class="setting-card">
+          <div class="setting-name">Failure flags</div>
+          <div class="setting-desc">Trend MA length, swing lookback for the structure check, RSI length and rollover level, and the volume spike multiple.</div>
+          <div class="setting-default">Default: MA 20 &middot; swing 8 &middot; RSI 14/50 &middot; vol 1.5&times;</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">ATR trailing stop</div>
+          <div class="setting-desc">A chandelier-style stop that ratchets behind price and never loosens. ATR length and multiple are both adjustable.</div>
+          <div class="setting-default">Default: ATR 14 &middot; 2.5&times;</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">Flags needed for EXIT</div>
+          <div class="setting-desc">How many flags trigger the red EXIT signal. A trail hit always triggers EXIT on its own, regardless of this setting.</div>
+          <div class="setting-default">Default: 3 of 5</div>
+        </div>
+        <div class="setting-card">
+          <div class="setting-name">Panel &amp; markers</div>
+          <div class="setting-desc">9 panel positions, text size, marker history on/off, optional background shading, dark/light theme, and colors.</div>
+          <div class="setting-default">Default: Dark theme</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FUNNEL ── -->
+  <section class="funnel">
+    <div class="funnel-inner">
+      <div class="section-tag">The workflow</div>
+      <h2>One tool in a clean process.</h2>
+      <p>The other free tools find and size the trade — Defender guards it once you're in. A Pro version that watches up to eight positions from one panel, with portfolio alerts, is in the works; follow BlueBeck on TradingView to catch it.</p>
+      <div class="funnel-flow">
+        <div class="funnel-step">
+          <div class="funnel-step-label">Step 4</div>
+          <div class="funnel-step-name">Swing Trade Scanner</div>
+        </div>
+        <div class="funnel-arrow">&rarr;</div>
+        <div class="funnel-step">
+          <div class="funnel-step-label">Step 5</div>
+          <div class="funnel-step-name">Risk Manager</div>
+        </div>
+        <div class="funnel-arrow">&rarr;</div>
+        <div class="funnel-step active">
+          <div class="funnel-step-label">Step 6</div>
+          <div class="funnel-step-name">Swing Trade Defender</div>
+        </div>
+      </div>
+      <div class="funnel-ctas">
+        <a href="https://www.tradingview.com/script/AUDyUchG-Swing-Trade-Defender/" target="_blank" class="btn btn-primary">Get Swing Trade Defender Free &rarr;</a>
+        <a href="risk-manager.html" class="btn btn-outline">See Risk Manager</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DISCLAIMER ── -->
+  <div class="disclaimer">
+    <p>&#9888; Educational risk-management tool. EXIT means the trade has failed by these rules — whether to act is always your decision. It does not place orders, and a flag is not a prediction. Not financial advice.</p>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Blue<span>Beck</span></div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="risk-manager.html">Risk Manager</a>
+        <a href="swing-trade-scanner.html">Swing Trade Scanner</a>
+        <a href="https://www.tradingview.com/u/BlueBeck" target="_blank">TradingView</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 BlueBeck. All rights reserved. &nbsp;|&nbsp; bluebeck.org</div>
+    </div>
+  </footer>
+
+</body>
+</html>

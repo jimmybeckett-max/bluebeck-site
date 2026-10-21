@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <title>About | BlueBeck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,600;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #0a0a0a;
+      --bg-card:    #111111;
+      --bg-card2:   #161616;
+      --border:     #222222;
+      --accent:     #4487d0;
+      --accent-dim: rgba(68, 135, 208, 0.12);
+      --accent-glow:rgba(68, 135, 208, 0.35);
+      --gold:       #c3a56c;
+      --text:       #ffffff;
+      --text-muted: #888888;
+      --text-dim:   #555555;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-mark { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; font-style: italic; color: var(--gold); line-height: 1; }
+    .logo-text span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s; }
+    nav a:hover, nav a.active { color: var(--text); }
+    .btn { display: inline-flex; align-items: center; padding: 10px 22px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { background: #5a98dd; box-shadow: 0 0 24px var(--accent-glow); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-outline:hover { background: var(--accent-dim); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      padding: 140px 24px 80px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(68,135,208,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .section-tag { font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+    .page-hero p { font-size: 1rem; color: var(--text-muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── STORY ── */
+    .story { padding: 80px 24px; }
+    .story-inner { max-width: 760px; margin: 0 auto; }
+    .story-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 24px; }
+    .story-inner p { font-size: 0.97rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 20px; }
+    .story-inner p strong { color: var(--text); }
+
+    /* ── PHILOSOPHY ── */
+    .philosophy { padding: 80px 24px; background: #0d0d0d; }
+    .phil-inner { max-width: 1000px; margin: 0 auto; }
+    .phil-inner .section-tag { margin-bottom: 12px; }
+    .phil-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 48px; }
+    .phil-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .phil-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      transition: border-color 0.3s;
+    }
+    .phil-card:hover { border-color: rgba(68,135,208,0.3); }
+    .phil-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(68,135,208,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .phil-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .phil-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── APPROACH ── */
+    .approach { padding: 80px 24px; }
+    .approach-inner { max-width: 760px; margin: 0 auto; }
+    .approach-inner h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px; }
+    .approach-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 40px; }
+    .approach-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .approach-item:last-child { border-bottom: none; }
+    .approach-num {
+      font-size: 1.8rem; font-weight: 800;
+      color: var(--accent); opacity: 0.4;
+      line-height: 1; flex-shrink: 0; width: 32px;
+    }
+    .approach-content h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .approach-content p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── CTA ── */
+    .cta-band {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 24px;
+      text-align: center;
+    }
+    .cta-band h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+    .cta-band p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 32px; }
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer { background: #080808; border-top: 1px solid var(--border); padding: 48px 24px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; font-style: italic; color: var(--gold); }
+    .footer-logo span { font-style: normal; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-left: 2px; }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { font-size: 0.85rem; color: var(--text-muted); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); text-align: center; width: 100%; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border); }
+
+    @media (max-width: 768px) {
+      header { padding: 0 20px; }
+      nav { display: none; }
+      .phil-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header>
+    <a href="index.html" class="logo">
+      <span class="logo-text">Blue<span>Beck</span></span>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="products.html" class="btn btn-primary">Get It Free</a>
+  </header>
+
+  <!-- ── PAGE HERO ── -->
+  <div class="page-hero">
+    <div class="section-tag">About</div>
+    <h1>A Trader Who Builds<br/>What He Actually Uses</h1>
+    <p>7 years in the market. Every tool on this site comes from real trading experience — not backtested theory.</p>
+  </div>
+
+  <!-- ── STORY ── -->
+  <section class="story">
+    <div class="story-inner">
+      <div class="section-tag">My Story</div>
+      <h2>Where It Started</h2>
+      <p>I've been swing trading stocks for over <strong>7 years</strong>. Before that I spent decades running my own businesses — a diesel mechanic, a bread distribution route — so I understand what it means to work hard for money and protect what you've earned.</p>
+      <p>When I got serious about trading, I realized most of the tools available were either built for institutions, too complicated for real-world use, or just plain didn't do what I needed. So I started building my own.</p>
+      <p>My focus has always been <strong>sector rotation</strong> — finding the sectors with the most strength, then picking the best stocks inside them. I only trade long, and I look for <strong>pullback entries</strong> to get in at better prices with less risk.</p>
+      <p>Every indicator on this site is something I run on my own charts every single day. If I don't use it, I don't share it.</p>
+    </div>
+  </section>
+
+  <!-- ── PHILOSOPHY ── -->
+  <section class="philosophy">
+    <div class="phil-inner">
+      <div class="section-tag">Philosophy</div>
+      <h2>How I Think About Trading</h2>
+      <div class="phil-grid">
+        <div class="phil-card">
+          <div class="phil-icon">📊</div>
+          <h4>Sector Rotation First</h4>
+          <p>Before I look at individual stocks I find out which sectors have the most strength. The best stock in a weak sector is still a weak trade.</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-icon">📉</div>
+          <h4>Pullbacks Over Breakouts</h4>
+          <p>I only trade long and I wait for pullbacks. Chasing breakouts means paying full price. Pullbacks give you a better entry and a better stop.</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-icon">🛡️</div>
+          <h4>Risk Management Is Everything</h4>
+          <p>No trade is worth blowing up your account. I risk 1% to 1.3% per trade, target 2:1 reward-to-risk, and let the math work in my favor over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── APPROACH ── -->
+  <section class="approach">
+    <div class="approach-inner">
+      <div class="section-tag">My Process</div>
+      <h2>How I Find Trades</h2>
+      <div class="approach-list">
+        <div class="approach-item">
+          <div class="approach-num">1</div>
+          <div class="approach-content">
+            <h4>Check Sector Strength</h4>
+            <p>I start every session by checking which sectors are leading the market. I only want to be in stocks that are being carried by a strong sector tailwind.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="approach-num">2</div>
+          <div class="approach-content">
+            <h4>Find the Best Stocks in That Sector</h4>
+            <p>Inside the strong sectors I look for individual stocks showing relative strength — ones that are holding up better than the sector itself.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="approach-num">3</div>
+          <div class="approach-content">
+            <h4>Wait for the Pullback</h4>
+            <p>I don't chase. I put the stock on my watchlist and wait for it to pull back to a key level — moving average, prior support, VWAP. That's where I look to enter.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="approach-num">4</div>
+          <div class="approach-content">
+            <h4>Define Risk Before Entering</h4>
+            <p>Before I place any trade I know exactly where my stop is and what my position size will be. The <a href="risk-manager.html" style="color: var(--accent);">Risk Manager</a> handles the math automatically.</p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top: 40px; font-size: 0.9rem; color: var(--text-muted); line-height: 1.8;">
+        The whole process runs on two pieces of software. Charts, scans and every BlueBeck tool live on <a href="https://www.tradingview.com/?aff_id=168972" target="_blank" rel="sponsored nofollow noopener" style="color: var(--accent);">TradingView</a>. The orders go through Robinhood — no commissions and fractional shares, so I can size a position to my risk instead of rounding to whole shares. That TradingView link is a referral link: if you sign up through it, BlueBeck gets a commission at no extra cost to you. I don't link to anything I don't use.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <div class="cta-band">
+    <h2>Want to Trade With the Same Tools?</h2>
+    <p>Get the Risk Manager — free and public on TradingView.</p>
+    <div class="cta-buttons">
+      <a href="products.html" class="btn btn-primary">View Products</a>
+      <a href="https://www.tradingview.com/u/BlueBeck" target="_blank" class="btn btn-outline">Follow on TradingView</a>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Blue<span>Beck</span></div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://www.tradingview.com/u/BlueBeck" target="_blank">TradingView</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 BlueBeck. All rights reserved. &nbsp;|&nbsp; bluebeck.org</div>
+    </div>
+  </footer>
+
+</body>
+</html>
