@@ -491,6 +491,8 @@
       .cred-inner { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; text-align: center; }
     }
+    /* ── MARKET STRIP ── */
+    .market-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-card); min-height: 78px; }
   </style>
 </head>
 <body>
@@ -535,6 +537,32 @@
         <div class="stat-num">Free</div>
         <div class="stat-label">On TradingView</div>
       </div>
+    </div>
+  </section>
+
+  <!-- ── MARKET STRIP (TradingView free widget) ── -->
+  <section class="market-strip" aria-label="Live market prices">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          {"proName": "AMEX:SPY", "title": "S&P 500"},
+          {"proName": "NASDAQ:QQQ", "title": "Nasdaq 100"},
+          {"proName": "AMEX:IWM", "title": "Russell 2000"},
+          {"proName": "AMEX:DIA", "title": "Dow"},
+          {"proName": "AMEX:XLK", "title": "Tech"},
+          {"proName": "AMEX:XLF", "title": "Financials"},
+          {"proName": "AMEX:XLE", "title": "Energy"},
+          {"proName": "AMEX:XLV", "title": "Health Care"}
+        ],
+        "showSymbolLogo": false,
+        "colorTheme": "dark",
+        "isTransparent": true,
+        "displayMode": "adaptive",
+        "locale": "en"
+      }
+      </script>
     </div>
   </section>
 
