@@ -491,6 +491,11 @@
       .cred-inner { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; text-align: center; }
     }
+    /* ── CHART SHOWCASE ── */
+    .showcase { padding: 0 24px 80px; }
+    .showcase-frame { max-width: 1100px; margin: 0 auto; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg-card); box-shadow: 0 0 80px var(--accent-dim); }
+    .showcase-frame img { display: block; width: 100%; height: auto; }
+    .showcase-frame figcaption { padding: 14px 20px; font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border); }
     /* ── MARKET STRIP ── */
     .market-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg-card); padding: 0; min-height: 58px; }
   </style>
@@ -540,7 +545,15 @@
     </div>
   </section>
 
-  <!-- ── MARKET STRIP (TradingView free widget) ── -->
+  <!-- ── CHART SHOWCASE ── -->
+  <section class="showcase" aria-label="BlueBeck indicators on a chart">
+    <figure class="showcase-frame">
+      <img src="img/hero-chart.png" alt="A daily CrowdStrike chart showing the BlueBeck Swing Scanner table, support and resistance zones, Extension Rank and Isolator indicators" width="1816" height="908" loading="lazy" />
+      <figcaption>The BlueBeck tools on a daily chart: trade levels, support and resistance, and the Isolator score. Example only, not a trade recommendation.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ── MARKET STRIP (TradingView free widget) -->
   <section class="market-strip" aria-label="Live market prices">
     <div class="tradingview-widget-container">
       <div class="tradingview-widget-container__widget"></div>
