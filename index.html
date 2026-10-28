@@ -484,7 +484,10 @@
     @media (max-width: 768px) {
       header { padding: 0 20px; }
       nav { display: none; }
-      .hero-stats { gap: 24px; flex-wrap: wrap; justify-content: center; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; justify-items: center; }
+      .showcase-frame { overflow: visible; }
+      .showcase-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .showcase-scroll img { width: 760px; max-width: none; }
       .product-card-inner { grid-template-columns: 1fr; }
       .product-preview { border-left: none; border-top: 1px solid var(--border); min-height: 280px; }
       .steps { grid-template-columns: 1fr; }
@@ -548,7 +551,7 @@
   <!-- ── CHART SHOWCASE ── -->
   <section class="showcase" aria-label="BlueBeck indicators on a chart">
     <figure class="showcase-frame">
-      <img src="img/hero-chart.png" alt="A daily CrowdStrike chart showing the BlueBeck Swing Scanner table, support and resistance zones, Extension Rank and Isolator indicators" width="1816" height="908" loading="lazy" />
+      <div class="showcase-scroll"><img src="img/hero-chart.png" alt="A daily CrowdStrike chart showing the BlueBeck Swing Scanner table, support and resistance zones, Extension Rank and Isolator indicators" width="1816" height="908" loading="lazy" /></div>
       <figcaption>The BlueBeck tools on a daily chart: trade levels, support and resistance, and the Isolator score. Example only, not a trade recommendation.</figcaption>
     </figure>
   </section>
